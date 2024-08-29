@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -53,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

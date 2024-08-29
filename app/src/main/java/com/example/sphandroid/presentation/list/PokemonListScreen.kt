@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.sphandroid.PokemonDetailsRoute
@@ -45,6 +49,7 @@ data class PokemonListState(
     val onSearchStringChange: (newString: String) -> Unit,
     val onPokemonSelected: (pokemon: Pokemon) -> Unit,
     val resetNavigation: () -> Unit,
+    val isLoading: Boolean = false,
     val navigateToDetailsScreen: PokemonDetails? = null,
 )
 
@@ -54,6 +59,9 @@ fun PokemonListScreen(
     viewModel: PokemonListViewModel = hiltViewModel(),
 ) {
     val pokemonListState = viewModel.toUiState()
+
+    LoadingDialog(isShowingDialog = pokemonListState.isLoading)
+
     LaunchedEffect(pokemonListState.navigateToDetailsScreen) {
         pokemonListState.navigateToDetailsScreen?.let {
             pokemonListState.resetNavigation()
@@ -119,6 +127,41 @@ fun PokemonListScreen(pokemonListState: PokemonListState) {
                 }
                 Divider(color = Color.LightGray)
             }
+        }
+    }
+}
+
+@Composable
+fun DialogContent() {
+    Box(
+        modifier = Modifier
+            .size(76.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(4.dp)
+            )
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(
+                    Alignment.Center
+                ),
+            color = Color.Red
+        )
+    }
+}
+
+@Composable
+fun LoadingDialog(isShowingDialog: Boolean, dismissOnBackPress: Boolean = false, dismissOnClickOutside: Boolean = false) {
+    if (isShowingDialog) {
+        Dialog(
+            onDismissRequest = { },
+            DialogProperties(
+                dismissOnBackPress = dismissOnBackPress,
+                dismissOnClickOutside = dismissOnClickOutside
+            )
+        ) {
+            DialogContent()
         }
     }
 }

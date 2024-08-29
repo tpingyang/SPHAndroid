@@ -1,7 +1,6 @@
 package com.example.sphandroid.data.remote.dto
 
 
-import com.example.sphandroid.domain.model.Pokemon
 import com.example.sphandroid.domain.model.PokemonDetails
 import com.google.gson.annotations.SerializedName
 
@@ -122,7 +121,14 @@ data class PokemonDetailsDto(
 }
 
 fun PokemonDetailsDto.toPokemon(): PokemonDetails {
+    val moves = moves.map {
+        it.move.name
+    }
     return PokemonDetails(
         name = name,
+        weight = weight,
+        height = height,
+        moves = moves,
+        imageUrl = sprites.frontDefault
     )
 }

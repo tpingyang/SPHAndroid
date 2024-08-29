@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.1"
+coilCompose = "2.0.0-rc01"
 converterGson = "2.9.0"
 hiltAndroid = "2.50"
 hiltCompiler = "1.2.0"
@@ -24,6 +25,7 @@ androidx-hilt-navigation = { module = "androidx.hilt:hilt-navigation", version.r
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompiler" }
 androidx-navigation-compose-v280rc01 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }

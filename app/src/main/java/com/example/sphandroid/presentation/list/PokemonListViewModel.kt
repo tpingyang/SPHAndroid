@@ -27,9 +27,9 @@ class PokemonListViewModel @Inject constructor(
     private val pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
 
     private val searchString = MutableStateFlow("")
+    private val isLoading = MutableStateFlow(false)
 
-    private var _navigateToDetailsScreen = MutableStateFlow<PokemonDetails?>(null)
-    var navigateToDetailsScreen: StateFlow<PokemonDetails?> = _navigateToDetailsScreen.asStateFlow()
+    private var navigateToDetailsScreen = MutableStateFlow<PokemonDetails?>(null)
 
     init {
         populateCurrency()
@@ -37,8 +37,10 @@ class PokemonListViewModel @Inject constructor(
 
     private fun populateCurrency() {
         viewModelScope.launch {
+            isLoading.value = true
             originalPokemons = pokemonUseCase()
             pokemons.value = originalPokemons
+            isLoading.value = false
         }
     }
 
@@ -57,14 +59,16 @@ class PokemonListViewModel @Inject constructor(
 
     private fun onPokemonSelected(pokemon: Pokemon) {
         viewModelScope.launch {
+            isLoading.value = true
             val result = getPokemonDetails(pokemon.url)
-            _navigateToDetailsScreen.value = result
+            navigateToDetailsScreen.value = result
+            isLoading.value = false
         }
 
     }
 
     private fun resetNavigation() {
-        _navigateToDetailsScreen.value = null
+        navigateToDetailsScreen.value = null
     }
 
     @Composable
@@ -72,6 +76,7 @@ class PokemonListViewModel @Inject constructor(
         val currencies by pokemons.collectAsState()
         val searchString by searchString.collectAsState()
         val navigateToDetailsScreen by navigateToDetailsScreen.collectAsState()
+        val isLoading by isLoading.collectAsState()
 
         return PokemonListState(
             pokemons = currencies,
@@ -80,7 +85,8 @@ class PokemonListViewModel @Inject constructor(
             onSearchStringChange = ::onSearchStringChange,
             onPokemonSelected = ::onPokemonSelected,
             navigateToDetailsScreen = navigateToDetailsScreen,
-            resetNavigation = ::resetNavigation
+            resetNavigation = ::resetNavigation,
+            isLoading = isLoading
         )
     }
 }

@@ -7,7 +7,15 @@ class GetPokemonDetails(
     private val pokemonRepository: pokemonRepository
 ) {
     suspend operator fun invoke(url: String): PokemonDetails {
-        return pokemonRepository.getPokemon(url)
-
+        val result = pokemonRepository.getPokemon(url)
+        return PokemonDetails(
+            weight = result.weight,
+            height = result.height,
+            imageUrl = result.imageUrl,
+            name = result.name.replaceFirstChar(kotlin.Char::titlecase),
+            moves = result.moves.map {
+                it.replace("-", " ").replaceFirstChar(kotlin.Char::titlecase)
+            }
+        )
     }
 }
