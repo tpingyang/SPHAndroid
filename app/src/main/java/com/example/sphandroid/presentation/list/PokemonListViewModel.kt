@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sphandroid.domain.model.Pokemon
 import com.example.sphandroid.domain.model.PokemonDetails
+import com.example.sphandroid.domain.use_case.FilterPokemon
 import com.example.sphandroid.domain.use_case.GetPokemonDetails
 import com.example.sphandroid.domain.use_case.GetPokemonList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
     private val pokemonUseCase: GetPokemonList,
-    private val getPokemonDetails: GetPokemonDetails
+    private val getPokemonDetails: GetPokemonDetails,
+    private val filterPokemon: FilterPokemon,
 ) : ViewModel() {
     private var originalPokemons: List<Pokemon> = emptyList()
     private val pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
@@ -41,12 +43,12 @@ class PokemonListViewModel @Inject constructor(
     }
 
     private fun onSearchStringChange(newString: String) {
-//        searchString.value = newString
-//        if (newString.text.isEmpty()) {
-//            pokemons.value = originalCurrencies
-//            return
-//        }
-//        pokemons.value = currencyUseCases.searchList(newString.text, originalCurrencies)
+        searchString.value = newString
+        if (newString.isEmpty()) {
+            pokemons.value = originalPokemons
+            return
+        }
+        pokemons.value = filterPokemon(newString, originalPokemons)
     }
 
     private fun clearSearch() {

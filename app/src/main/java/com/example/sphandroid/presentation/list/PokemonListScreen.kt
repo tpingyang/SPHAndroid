@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,8 +18,8 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -65,52 +66,59 @@ fun PokemonListScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PokemonListScreen(pokemonListState: PokemonListState) {
+    Column {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = pokemonListState.searchString,
+            onValueChange = pokemonListState.onSearchStringChange,
+            placeholder = {Text(text = stringResource(R.string.search))}
+        )
+        LazyColumn(
+            modifier = Modifier
+                .background(Color.White),
 
-    LazyColumn(
-        modifier = Modifier
-            .background(Color.White),
-
-        ) {
-        items(pokemonListState.pokemons) { pokemon ->
-            Row(
-                Modifier
-                    .height(60.dp)
-                    .padding(horizontal = 12.dp)
-                    .clickable { pokemonListState.onPokemonSelected(pokemon) },
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                        .background(color = Color.DarkGray),
-                    contentAlignment = Alignment.Center
+            items(pokemonListState.pokemons) { pokemon ->
+                Row(
+                    Modifier
+                        .height(60.dp)
+                        .padding(horizontal = 12.dp)
+                        .clickable { pokemonListState.onPokemonSelected(pokemon) },
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "${pokemon.name[0]}",
-                        fontSize = 20.sp,
-                        color = Color.White
-                    )
-                }
-                Text(
-                    text = pokemon.name,
-                    fontSize = 18.sp,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 16.dp,
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .background(color = Color.DarkGray),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "${pokemon.name[0]}",
+                            fontSize = 20.sp,
+                            color = Color.White
                         )
-                        .weight(1f)
-                )
-
-
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
-                        contentDescription = stringResource(R.string.next),
+                    }
+                    Text(
+                        text = pokemon.name,
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 16.dp,
+                            )
+                            .weight(1f)
                     )
+
+
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowRight,
+                            contentDescription = stringResource(R.string.next),
+                        )
+                    }
                 }
+                Divider(color = Color.LightGray)
             }
-            Divider(color = Color.LightGray)
         }
     }
 }
