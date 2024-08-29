@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.sphandroid.domain.model.PokemonDetails
 import com.example.sphandroid.presentation.CustomNavType
+import com.example.sphandroid.presentation.PokemonScreen
 import com.example.sphandroid.presentation.details.PokemonDetailsScreen
 import com.example.sphandroid.presentation.list.PokemonListScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,24 +30,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 Box(modifier = Modifier.padding(innerPadding)) {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = PokemonListRoute
-                    ) {
-                        composable<PokemonListRoute> {
-                            PokemonListScreen(navController)
-                        }
-
-                        composable<PokemonDetailsRoute>(
-                            typeMap = mapOf(
-                                typeOf<PokemonDetails>() to CustomNavType.PokemonDetailsType
-                            )
-                        ) {
-                            val args = it.toRoute<PokemonDetailsRoute>()
-                            PokemonDetailsScreen(pokemonDetails = args.pokemonDetails)
-                        }
-                    }
+                    PokemonScreen()
+//                    val navController = rememberNavController()
+//                    NavHost(
+//                        navController = navController,
+//                        startDestination = PokemonListRoute
+//                    ) {
+//                        composable<PokemonListRoute> {
+//                            PokemonListScreen(navController)
+//                        }
+//
+//                        composable<PokemonDetailsRoute>(
+//                            typeMap = mapOf(
+//                                typeOf<PokemonDetails>() to CustomNavType.PokemonDetailsType
+//                            )
+//                        ) {
+//                            val args = it.toRoute<PokemonDetailsRoute>()
+//                            PokemonDetailsScreen(pokemonDetails = args.pokemonDetails)
+//                        }
+//                    }
                 }
             }
         }

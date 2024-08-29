@@ -18,11 +18,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,10 +32,17 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.sphandroid.R
 import com.example.sphandroid.domain.model.PokemonDetails
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+fun PokemonDetailsScreen(navigator: ThreePaneScaffoldNavigator<Any>,) {
+    val pokemonDetails = navigator.currentDestination?.content as? PokemonDetails
+    if(pokemonDetails != null) {
+        PokemonDetailsScreen(pokemonDetails)
+    }
+}
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PokemonDetailsScreen(pokemonDetails: PokemonDetails) {
-    val pokemonDetailsState by rememberSaveable { mutableStateOf(pokemonDetails) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +52,7 @@ fun PokemonDetailsScreen(pokemonDetails: PokemonDetails) {
     ) {
 
         Image(
-            painter = rememberAsyncImagePainter(pokemonDetailsState.imageUrl),
+            painter = rememberAsyncImagePainter(pokemonDetails.imageUrl),
             contentDescription = null,
             modifier = Modifier.size(128.dp)
         )
@@ -72,7 +77,7 @@ fun PokemonDetailsScreen(pokemonDetails: PokemonDetails) {
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally)
                         .padding(bottom = 8.dp),
-                    text = pokemonDetailsState.name,
+                    text = pokemonDetails.name,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineLarge
                 )
@@ -81,8 +86,8 @@ fun PokemonDetailsScreen(pokemonDetails: PokemonDetails) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(text = "Weight:${pokemonDetailsState.weight.toFloat() / 10}Kg")
-                    Text(text = "Height:${pokemonDetailsState.height.toFloat() / 10}m")
+                    Text(text = "Weight:${pokemonDetails.weight.toFloat() / 10}Kg")
+                    Text(text = "Height:${pokemonDetails.height.toFloat() / 10}m")
                 }
             }
         }
@@ -115,7 +120,7 @@ fun PokemonDetailsScreen(pokemonDetails: PokemonDetails) {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
-                        pokemonDetailsState.moves.forEach {
+                        pokemonDetails.moves.forEach {
                             Box(modifier = Modifier
                                 .padding(4.dp)
                                 .background(Color.Gray, RoundedCornerShape(8.dp))
