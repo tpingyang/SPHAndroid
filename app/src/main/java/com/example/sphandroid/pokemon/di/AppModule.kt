@@ -1,5 +1,6 @@
 package com.example.sphandroid.pokemon.di
 
+import android.app.Application
 import com.example.sphandroid.pokemon.data.remote.PokemonApi
 import com.example.sphandroid.pokemon.data.repository.PokemonRepositoryImpl
 import com.example.sphandroid.pokemon.domain.repository.PokemonRepository
@@ -10,15 +11,22 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
+import okhttp3.CacheControl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
 
     @Provides
     @Singleton
@@ -32,7 +40,7 @@ object AppModule {
     }
 
     @Provides
-    fun okHttpClient(): OkHttpClient {
+    fun okHttpClient(context: Application): OkHttpClient {
         val levelType: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
 
         val logging = HttpLoggingInterceptor()
@@ -40,6 +48,8 @@ object AppModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .cache(Cache(File(context.cacheDir, "http-cache"), 10L * 1024L * 1024L)) // 10 MiB
+            .addNetworkInterceptor(CacheInterceptor())
             .build()
     }
 
@@ -65,5 +75,18 @@ object AppModule {
     @Singleton
     fun provideFilterPokemon(): FilterPokemon {
         return FilterPokemon()
+    }
+}
+
+
+class CacheInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response: Response = chain.proceed(chain.request())
+        val cacheControl = CacheControl.Builder()
+            .maxAge(10, TimeUnit.DAYS)
+            .build()
+        return response.newBuilder()
+            .header("Cache-Control", cacheControl.toString())
+            .build()
     }
 }

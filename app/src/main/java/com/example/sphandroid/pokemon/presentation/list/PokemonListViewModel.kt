@@ -30,15 +30,20 @@ class PokemonListViewModel @Inject constructor(
     private var navigateToDetailsScreen = MutableStateFlow<PokemonDetails?>(null)
 
     init {
-        populateCurrency()
+        populatePokemon()
     }
 
-    private fun populateCurrency() {
+    private fun populatePokemon() {
         viewModelScope.launch {
             isLoading.value = true
-            originalPokemons = pokemonUseCase()
-            pokemons.value = originalPokemons
-            isLoading.value = false
+            try {
+
+                originalPokemons = pokemonUseCase()
+                pokemons.value = originalPokemons
+            } catch (_: Exception) {
+            } finally {
+                isLoading.value = false
+            }
         }
     }
 
@@ -58,9 +63,13 @@ class PokemonListViewModel @Inject constructor(
     private fun onPokemonSelected(pokemon: Pokemon) {
         viewModelScope.launch {
             isLoading.value = true
-            val result = getPokemonDetails(pokemon.url)
-            navigateToDetailsScreen.value = result
-            isLoading.value = false
+            try {
+                val result = getPokemonDetails(pokemon.url)
+                navigateToDetailsScreen.value = result
+            } catch (_: Exception) {
+            } finally {
+                isLoading.value = false
+            }
         }
 
     }
