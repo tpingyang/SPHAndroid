@@ -169,7 +169,7 @@ fun LoadingDialog(isShowingDialog: Boolean, dismissOnBackPress: Boolean = false,
 
 @Preview
 @Composable
-fun PreviewCurrencyScreen() {
+fun PreviewPokemonListScreen() {
     PokemonListScreen(
         pokemonListState = PokemonListState(
             pokemons = listOf(
@@ -190,7 +190,7 @@ fun PreviewCurrencyScreen() {
 
 @Preview
 @Composable
-fun PreviewCurrencyScreenEmpty() {
+fun PreviewPokemonListScreenEmpty() {
     PokemonListScreen(
         pokemonListState = PokemonListState(
             pokemons = emptyList(),
