@@ -4,11 +4,11 @@ import com.example.sphandroid.data.remote.PokemonApi
 import com.example.sphandroid.data.remote.dto.toPokemon
 import com.example.sphandroid.domain.model.Pokemon
 import com.example.sphandroid.domain.model.PokemonDetails
-import com.example.sphandroid.domain.repository.pokemonRepository
+import com.example.sphandroid.domain.repository.PokemonRepository
 
 class PokemonRepositoryImpl(
     private val pokemonApi: PokemonApi
-): pokemonRepository{
+): PokemonRepository{
     override suspend fun getPokemons(): List<Pokemon> {
         val response = pokemonApi.getPokemons()
         return response.results.map { it.toPokemon() }

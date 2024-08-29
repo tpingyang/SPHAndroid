@@ -2,7 +2,7 @@ package com.example.sphandroid.di
 
 import com.example.sphandroid.data.remote.PokemonApi
 import com.example.sphandroid.data.repository.PokemonRepositoryImpl
-import com.example.sphandroid.domain.repository.pokemonRepository
+import com.example.sphandroid.domain.repository.PokemonRepository
 import com.example.sphandroid.domain.use_case.FilterPokemon
 import com.example.sphandroid.domain.use_case.GetPokemonDetails
 import com.example.sphandroid.domain.use_case.GetPokemonList
@@ -45,19 +45,19 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePokemonRepository(api: PokemonApi): pokemonRepository {
+    fun providePokemonRepository(api: PokemonApi): PokemonRepository {
         return PokemonRepositoryImpl(api)
     }
 
     @Provides
     @Singleton
-    fun provideGetPokemonList(pokemonRepository: pokemonRepository): GetPokemonList {
+    fun provideGetPokemonList(pokemonRepository: PokemonRepository): GetPokemonList {
         return GetPokemonList(pokemonRepository)
     }
 
     @Provides
     @Singleton
-    fun provideGetPokemonDetails(pokemonRepository: pokemonRepository): GetPokemonDetails {
+    fun provideGetPokemonDetails(pokemonRepository: PokemonRepository): GetPokemonDetails {
         return GetPokemonDetails(pokemonRepository)
     }
 

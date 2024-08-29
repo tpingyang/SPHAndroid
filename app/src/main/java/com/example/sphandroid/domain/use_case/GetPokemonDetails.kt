@@ -1,10 +1,10 @@
 package com.example.sphandroid.domain.use_case
 
 import com.example.sphandroid.domain.model.PokemonDetails
-import com.example.sphandroid.domain.repository.pokemonRepository
+import com.example.sphandroid.domain.repository.PokemonRepository
 
 class GetPokemonDetails(
-    private val pokemonRepository: pokemonRepository
+    private val pokemonRepository: PokemonRepository
 ) {
     suspend operator fun invoke(url: String): PokemonDetails {
         val result = pokemonRepository.getPokemon(url)

@@ -62,6 +62,8 @@ dependencies {
 
     //Dagger - Hilt
     implementation(libs.hilt.android)
+    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.12")
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation)
@@ -80,6 +82,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
+    testImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
