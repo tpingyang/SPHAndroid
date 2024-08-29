@@ -1,6 +1,7 @@
 package com.example.sphandroid.domain.use_case
 
 import com.example.sphandroid.data.repository.FakePokemonRepository
+import com.example.sphandroid.pokemon.domain.use_case.GetPokemonDetails
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

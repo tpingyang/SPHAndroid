@@ -1,8 +1,8 @@
 package com.example.sphandroid.data.repository
 
-import com.example.sphandroid.domain.model.Pokemon
-import com.example.sphandroid.domain.model.PokemonDetails
-import com.example.sphandroid.domain.repository.PokemonRepository
+import com.example.sphandroid.pokemon.domain.model.Pokemon
+import com.example.sphandroid.pokemon.domain.model.PokemonDetails
+import com.example.sphandroid.pokemon.domain.repository.PokemonRepository
 
 class FakePokemonRepository : PokemonRepository {
     override suspend fun getPokemons(): List<Pokemon> {

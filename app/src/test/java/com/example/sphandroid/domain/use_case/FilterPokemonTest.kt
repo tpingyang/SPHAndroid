@@ -1,6 +1,7 @@
 package com.example.sphandroid.domain.use_case
 
-import com.example.sphandroid.domain.model.Pokemon
+import com.example.sphandroid.pokemon.domain.model.Pokemon
+import com.example.sphandroid.pokemon.domain.use_case.FilterPokemon
 import com.google.common.truth.Truth
 import org.junit.Test
 

@@ -1,8 +1,8 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.sphandroid.domain.model.Pokemon
-import com.example.sphandroid.presentation.list.PokemonListScreen
-import com.example.sphandroid.presentation.list.PokemonListState
+import com.example.sphandroid.pokemon.domain.model.Pokemon
+import com.example.sphandroid.pokemon.presentation.list.PokemonListScreen
+import com.example.sphandroid.pokemon.presentation.list.PokemonListState
 
 
 @Preview

@@ -1,7 +1,7 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.sphandroid.domain.model.PokemonDetails
-import com.example.sphandroid.presentation.details.PokemonDetailsScreen
+import com.example.sphandroid.pokemon.domain.model.PokemonDetails
+import com.example.sphandroid.pokemon.presentation.details.PokemonDetailsScreen
 
 @Preview
 @Composable
